@@ -1,0 +1,4 @@
+interface:
+  display_name: "Android Architecture & Design"
+  short_description: "约束 Android 架构与设计，覆盖选型、性能、数据可靠性及 Google Play 发布适配"
+  default_prompt: "使用 $android-architecture-design，检查当前 Android 项目的架构和 Material 3 设计，并在需求范围内完成修改。"
