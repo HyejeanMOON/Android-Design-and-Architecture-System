@@ -1,5 +1,5 @@
-# 任务
+# Task
 
-只 Review input 中的 XML 页面切片，不修改。单个应用当前只有一个此页面实例，RefreshHooks 是应用级刷新通知入口。检查拼写和 View 销毁后的引用关系，说明触发条件与影响，不把修复范围扩展成架构迁移。ApiContract 中的字段拼写是已上线外部契约，不可直接重命名。
+Review only the XML screen slice in `input/`; do not edit. This app currently has only one instance of the screen, and RefreshHooks is an app-level refresh notification entry point. Check spelling and references after View destruction; explain trigger and impact without expanding into an architecture migration. The field spelling in ApiContract is a published external contract and must not be renamed directly.
 
-绑定、R 类由目标 Android 项目资源生成；这些文件是评测用源码切片，没有本地 Gradle 工程。不能声称已在设备或完整 App 中运行，也不能因未提供整个项目就虚构其他架构缺陷。
+The target Android project generates binding and R classes from its resources. These files are evaluation source slices with no local Gradle project. Do not claim device or full-app execution, or invent other architecture defects because the whole project was not supplied.

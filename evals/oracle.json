@@ -1,22 +1,22 @@
 {
   "state": {
     "expected": [
-      {"symbol": "complete/fail", "finding": "未核对会话与请求身份，过期响应或错误会覆盖当前状态或泄露旧账号结果"},
-      {"symbol": "fail", "finding": "刷新失败清空已有内容，与契约冲突"}
+      {"symbol": "complete/fail", "finding": "Session and request identity are unchecked, so stale results or errors can overwrite current state or expose previous-account results"},
+      {"symbol": "fail", "finding": "A failed refresh clears existing content, violating the stated contract"}
     ],
-    "controls": ["纯 Kotlin 状态组件无需继承 ViewModel", "不引入额外框架或持久化"]
+    "controls": ["A pure Kotlin state component need not inherit ViewModel", "Do not add a framework or persistence"]
   },
   "xml": {
     "expected": [
-      {"symbol": "RefreshHooks.listener / onDestroyView", "finding": "应用级单例持有 lambda，lambda 捕获 binding 和 Fragment，View 销毁后仍被保留"},
-      {"symbol": "strings.xml:loading", "finding": "Loadng 为可见文案 typo"}
+      {"symbol": "RefreshHooks.listener / onDestroyView", "finding": "An app-level singleton retains a lambda that captures binding and Fragment after the View is destroyed"},
+      {"symbol": "strings.xml:loading", "finding": "Loadng is a user-visible copy typo"}
     ],
-    "controls": ["usr_nmae 是外部键，不能直接更名", "无设备时不得声称泄漏运行验证通过"]
+    "controls": ["usr_nmae is an external key and must not be renamed directly", "Without a device, do not claim runtime leak verification"]
   },
   "compose": {
     "expected": [
-      {"symbol": "CatalogRoute", "finding": "在 Composable 函数体直接刷新，重组会重复触发请求，应使用匹配一次进入语义的副作用或等效状态拥有者方案"}
+      {"symbol": "CatalogRoute", "finding": "Refreshing directly in a Composable body repeats requests on recomposition; use a side effect matching once-per-entry semantics or an equivalent state-owner solution"}
     ],
-    "controls": ["BasicText 和简单显示不自动构成缺陷", "不强制额外 Store 或 reducer 文件"]
+    "controls": ["BasicText and minimal display are not automatic defects", "Do not require an extra Store or reducer file"]
   }
 }

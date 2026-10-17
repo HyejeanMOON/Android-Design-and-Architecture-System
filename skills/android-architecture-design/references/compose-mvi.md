@@ -1,11 +1,11 @@
-# Compose：轻量 MVI
+# Compose: lightweight MVI
 
-独立新屏幕默认 Action → ViewModel → [UseCase] → Repository → immutable UiState → Screen；无需额外 Store 框架。旧 Compose MVVM 和 XML 内嵌组件按 [legacy-hybrid.md](legacy-hybrid.md)，不自动迁移或另造状态层。
+For an independent new screen, default to Action → ViewModel → [UseCase] → Repository → immutable UiState → Screen. An extra Store framework is unnecessary. Follow [legacy interoperability](legacy-hybrid.md) for existing Compose MVVM or an XML-embedded component; do not automatically migrate or add another state layer.
 
-- ViewModel 暴露只读 StateFlow 和动作入口；页面按需定义 UiState／sealed Action，Action 不是 android.content.Intent。复杂转换可提取纯 reducer，简单转换不强制单独文件。
-- Route 获取状态拥有者、按版本感知生命周期收集并连接导航；复用 Screen／组件接收状态和回调，不依赖 Repository／NavController／ViewModel。
-- Composable 函数体不执行业务 IO 或重复派发加载。Effect 的 key、取消和清理匹配真实语义；关键结果及导航按 [architecture.md](architecture.md) 管理，不默认 Effect 总线。
-- 局部可丢弃状态用 remember，适合恢复的输入用 rememberSaveable；业务状态归 ViewModel，不镜像两份 UiState。集合不能外部原地变更，稳定性注解不能掩盖可变性。
-- 列表使用真实身份 key，按需 contentType；优化需热点依据，不批量添加 remember／derivedStateOf／@Stable。M3 及主题默认仅适用于新增／授权迁移区域。
+- ViewModel exposes read-only StateFlow and action entry points. Define UiState or sealed Actions when needed. An Action is not android.content.Intent. Extract a pure reducer for complex transitions; simple transitions need no separate file.
+- A Route obtains the state owner, collects state with lifecycle awareness supported by the project version, and connects navigation. Reusable Screens/components accept state and callbacks instead of depending on Repository, NavController, or ViewModel.
+- A Composable body does not perform business IO or redispatch loading on recomposition. Effect keys, cancellation, and cleanup must match their meaning. Handle critical results and navigation under [architecture.md](architecture.md); do not add an Effect bus by default.
+- Use remember for disposable local state and rememberSaveable for suitable restorable input. Business state belongs to the ViewModel; do not mirror UiState twice. Do not mutate externally held collections in place or use stability annotations to conceal mutability.
+- Use real identity keys in lists and contentType where useful. Optimize measured hotspots; do not add remember, derivedStateOf, or @Stable indiscriminately. The M3 and theme defaults apply only to new or explicitly migrated areas.
 
-验证相关动作转换、重组无重复工作、错误／取消及重返行为。依据：[Compose 架构](https://developer.android.com/develop/ui/compose/architecture)、[UI 事件](https://developer.android.com/topic/architecture/ui-layer/events)。MVI、Route／Screen 划分为插件约定。
+Verify relevant action transitions, absence of repeated work on recomposition, error/cancellation paths, and re-entry. Sources: [Compose architecture](https://developer.android.com/develop/ui/compose/architecture), [UI events](https://developer.android.com/topic/architecture/ui-layer/events). MVI and Route/Screen separation are plugin conventions.

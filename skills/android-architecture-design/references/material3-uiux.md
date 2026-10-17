@@ -1,23 +1,23 @@
-# Material 3 UIUX
+# Material 3 UI/UX
 
-先明确页面任务、信息层级、主要操作、返回和相关异常，再选组件。仅覆盖本次需求；预览假数据明确标识，不添加虚构业务入口。
+Identify the page task, information hierarchy, primary action, Back behavior, and relevant exceptional paths before choosing components. Stay within the requested feature. Label fake preview data; do not add fictional business entry points.
 
-## 组件与主题
+## Components and theme
 
-新增／授权迁移区域优先标准 M3 与既有设计系统；XML 用兼容 Material Components，Compose 用 M3。旧主题共存按 [legacy-hybrid.md](legacy-hybrid.md)，不全局强换。语义色与 on-color、字体／形状／间距沿既有资源／token，不把所有点击对象都做 Card。
+Prefer standard M3 components and the existing design system in new or explicitly migrated areas. XML uses compatible Material Components; Compose uses M3. Follow [legacy interoperability](legacy-hybrid.md) when old themes coexist; do not replace the global theme. Use semantic colors and on-colors, typography, shape, and spacing from existing resources or tokens. Not every clickable item needs to be a Card.
 
-检查产品支持的浅深色；动态色按平台／品牌需要启用并有静态回退。品牌定制允许，实验 API／Expressive 全面改版不默认引入。
+Check light and dark themes supported by the product. Enable dynamic color when appropriate for platform and brand, with a static fallback. Brand customization is allowed. Do not introduce experimental APIs or an Expressive redesign by default.
 
-状态按场景表达初始加载、刷新、空、错误、校验、权限、提交与完成；可并存，刷新失败不必清内容，不强制每页所有状态。
+Represent initial loading, refresh, empty, error, validation, permission, submit, and completion states where relevant. States can coexist; failed refresh need not erase content. Do not force every state into every screen.
 
-## 无障碍与适配
+## Accessibility and adaptation
 
-- 交互目标通常至少 48dp × 48dp，图标视觉和触摸范围分开，不相互重叠。正文对比度目标 4.5:1，大字 3:1，按实际前景背景／透明度核对，不能凭 token 名称保证通过。
-- 有意义图标有名称，装饰图标不重复朗读；自定义控件补语义、角色、状态和操作，检查阅读顺序／焦点。contentDescription 不等于无障碍完成。
-- 支持字体缩放、长文案、资源化、数量／格式与 RTL，不固定高度裁字或拼接翻译句子。错误提供可操作恢复，不只错误码。
-- 以可用窗口空间选择布局和适用导航／多栏，保持已有目的地；检查相关旋转、多窗口、折叠与阅读宽度，不按设备型号硬判。
-- 系统栏／缺口／IME insets 只在正确边界处理，避免重复 padding；返回／edge-to-edge 按目标系统核对，不降低 target 逃避适配。动效有语义并尊重系统设置。
+- Interactive targets generally need at least 48dp × 48dp; separate visual icon size from touch area without overlapping targets. Aim for 4.5:1 contrast for body text and 3:1 for large text; check real foreground, background, and alpha rather than trusting token names.
+- Name meaningful icons and avoid reading decorative icons twice. Add semantics, roles, state, and actions to custom controls; check reading order and focus. A contentDescription alone does not finish accessibility work.
+- Support font scaling, long copy, resources, quantity/format conventions, and RTL. Avoid fixed heights that clip text or concatenated translated sentences. Errors should offer actionable recovery, not just a code.
+- Choose layout and suitable navigation/columns from available window space while keeping existing destinations. Check relevant rotation, multi-window, fold, and reading width; do not classify only by device model.
+- Handle system bar, cutout, and IME insets at the correct boundary without duplicate padding. Check Back and edge-to-edge behavior against the target system; do not lower targetSdk to evade adaptation. Motion should convey meaning and respect system settings.
 
-按影响检查浅深色、大字、相关窗口和异常状态及关键流程 TalkBack／键盘；不能渲染时说明未验证，不宣称全面符合规范。
+Check affected light/dark modes, large text, relevant windows and exceptional states, plus key TalkBack/keyboard flows. If rendering is unavailable, state that it was not verified; do not claim complete guideline compliance.
 
-依据：[M3](https://m3.material.io/foundations)、[Compose](https://developer.android.com/develop/ui/compose/designsystems/material3)、[Views](https://developer.android.com/develop/ui/views/theming/look-and-feel)、[无障碍](https://developer.android.com/develop/ui/compose/accessibility/api-defaults)、[自适应](https://developer.android.com/develop/ui/compose/layouts/adaptive)。
+Sources: [Material 3](https://m3.material.io/foundations), [Compose](https://developer.android.com/develop/ui/compose/designsystems/material3), [Views](https://developer.android.com/develop/ui/views/theming/look-and-feel), [Accessibility](https://developer.android.com/develop/ui/compose/accessibility/api-defaults), [Adaptive UI](https://developer.android.com/develop/ui/compose/layouts/adaptive).

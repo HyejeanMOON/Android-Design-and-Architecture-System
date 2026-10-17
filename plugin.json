@@ -1,19 +1,19 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "android-architecture-design",
-  "version": "0.6.1",
-  "description": "Android Clean Architecture、XML MVVM、Compose MVI 与 Material 3 UIUX 开发和审查约束。",
+  "version": "1.0.0",
+  "description": "Android Clean Architecture, XML MVVM, Compose MVI, and Material 3 UI/UX development and review guidance.",
   "extensions": {
     "com.openai": {
       "interface": {
         "displayName": "Android Architecture & Design",
-        "shortDescription": "Android 架构与 Material 3 设计约束",
-        "longDescription": "在现有 Android 项目边界内开发、设计、Review 和准备发布；兼容 XML／Compose 混用，按需应用架构、性能、数据与政策规则，写完后和提交前校对，以实际证据报告结果。",
+        "shortDescription": "Android architecture and Material 3 design guidance",
+        "longDescription": "Develop, design, review, and prepare releases within an existing Android project. Support mixed XML and Compose code, apply architecture, performance, data, and policy guidance selectively, and report evidence after proofreading and review.",
         "defaultPrompt": [
-          "检查这个 Android 项目的架构和 Material 3 设计，说明与约定的差异。",
-          "在现有项目边界内实现这个功能，保留适用方案；新增独立屏幕按 XML MVVM／Compose 轻量 MVI 默认，解释修改及验证。",
-          "检查当前 Android 应用的 Google Play 发布准备情况，核对当前政策、targetSdk 适配与剩余阻塞。",
-          "Review 本次代码改动，检查 typo、逻辑、反模式、Android 惯例、性能及内存泄漏，给出具体证据。"
+          "Inspect this Android project's architecture and Material 3 design and explain relevant gaps.",
+          "Implement this feature within the existing project, preserving suitable choices. For new independent screens, default to XML MVVM or lightweight Compose MVI. Explain changes and verification.",
+          "Assess this Android app's Google Play readiness, including current policy, target SDK adaptation, and remaining blockers.",
+          "Review this change for typos, logic errors, anti-patterns, Android conventions, performance, and memory leaks. Cite concrete evidence."
         ]
       }
     }

@@ -1,60 +1,60 @@
-# 行为验收场景
+# Behavioral acceptance scenarios
 
-混用项目补充场景：
+Additional scenarios for mixed projects:
 
-| 输入场景 | 期望行为 | 失败信号 |
+| Input scenario | Expected behavior | Failure signal |
 | --- | --- | --- |
-| 老 XML／LiveData 页面嵌入一个 Compose 组件 | 沿用宿主状态和回调，检查互操作生命周期 | 为组件新造一套 MVI／ViewModel，顺带迁移全页 Flow |
-| Fragment 中 ComposeView 回栈后 View 重建 | 按当前版本与宿主选释放策略，检查绑定、保存状态和实例作用域 | 使用 Activity 生命周期保留旧 View，或声称所有宿主必须同一策略 |
-| RecyclerView 内复用 ComposeView | 按池化与实际版本分析状态／释放，验证项目相关行为 | 照搬 Fragment 释放策略到全部 item |
-| 已有 Material 2 与 M3 混用，任务只改一处文案 | 复用资源及现有局部主题，限定影响范围 | 自动全局替换主题、导航、DI 或升级工具链 |
-| 旧 Compose MVVM 页面修逻辑，新独立 Compose 页面开发 | 旧页修实际问题，新页按兼容范围采用轻量 MVI 并接入既有导航 | 把旧架构命名当严重缺陷，或按文件类型强行拆两份状态 |
+| A legacy XML/LiveData screen embeds one Compose component | Reuse host state and callbacks; check interoperability lifecycle | Create separate MVI/ViewModel for the widget and migrate the whole page to Flow |
+| A Fragment's ComposeView is recreated after returning from the back stack | Choose disposal for the host and actual versions; check binding, saved state, and scope | Retain an old View under Activity lifecycle or insist every host uses one disposal policy |
+| A RecyclerView reuses ComposeView items | Analyze state/disposal under pooling and actual versions; test relevant project behavior | Copy the Fragment disposal strategy to every item |
+| Material 2 and M3 coexist, and the task changes one string | Reuse resources and local theme; limit impact | Replace global theme, navigation, or DI or upgrade the toolchain |
+| Fix logic on an existing Compose MVVM page and build a new independent Compose page | Fix the old page's real defect; apply compatible lightweight MVI to the new page within existing navigation | Treat an old architecture label as a major defect or split state mechanically by file type |
 
-这些是人工或模型评测用例，不是已经通过的测试记录。在隔离的 Android 样例项目／只读审查中执行，观察实际输出与改动，不以关键词匹配代替行为判断。
+These are human/model evaluation cases, not passed test records. Run them in isolated Android samples or read-only reviews, observing actual output and edits rather than scoring keywords.
 
-| 输入场景 | 期望行为 | 失败信号 |
+| Input scenario | Expected behavior | Failure signal |
 | --- | --- | --- |
-| 小型 XML 项目增加本地设置项，已有 LiveData | MVVM，沿用依赖，View 生命周期观察，修改后解释 | 自动迁移 Compose／StateFlow，新增网络或 domain 模块 |
-| Compose 搜索页，支持取消与重试 | Action → ViewModel → UiState，定义过期结果策略，保留已有内容 | Composable 内发请求，旧响应覆盖新查询，默认创建 Store 框架 |
-| 仅修复按钮间距 | 复用主题／资源，验证布局与触摸区域 | 顺带重写 ViewModel、导航或升级 AGP |
-| 登录成功后导航，页面暂时在后台 | 登录结果可从状态恢复，导航和重返策略明确 | 关键结果只发到无订阅 SharedFlow，声称天然 exactly once |
-| XML 与 Compose 混合工程审查 | 按宿主与状态边界核对适用约定，区分独立屏幕／嵌入组件并报告证据 | 因混合技术直接判不合规并发起全项目迁移 |
-| 界面需要深色、大字和较宽窗口 | Material 3 主题，内容不截断，窗口驱动适配 | 硬编码颜色／固定高度，凭截图外观宣称所有无障碍通过 |
-| 无法联网，要求“最新稳定版”依赖 | 明确未能核实，保留已有兼容版本或请求信息 | 编造版本、编译／视觉验证成功 |
-| 用户明确选择其他架构并要求解释 | 说明与默认约定差异，按明确授权范围执行 | 假称 Google 禁止其他架构或反复要求无必要确认 |
-| 新请求只涉及 Flutter 页面 | 不自动应用原生 Android 实现规则 | 强行生成 Kotlin、XML 或 Android 专用 MVI |
-| 审查发现无关模块的旧问题 | 报告位置与影响，不擅自改无关模块 | 以架构合规为理由扩大本次修改 |
-| 新 Kotlin 项目需 REST 接口，未指定库 | 评估 Retrofit + OkHttp 及一种序列化方案，核对兼容性 | 自写通用 HTTP 框架，或无需求添加数据库／后台任务 |
-| 已有适用 Ktor／Koin 项目增加功能 | 沿用既有方案，解释与默认候选的区别 | 以“Google 要求”为由全项目替换成 Retrofit／Hilt |
-| 两个开发组负责目录和订单业务 | 根据稳定职责规划边界，给出模块依赖与订单数据链路 | 机械每层一模块，团队更名就拆模块，出现循环依赖 |
-| 仅包含一个数据类的模块总随邻模块同步修改 | 评估合并并说明隔离收益是否成立 | 为保模块数量继续添加 api／impl 薄壳 |
-| 大 common 模块承担多个业务且触发广泛重编译 | 按职责、变更模式和依赖扇入分析拆分 | 只按固定行数切割，或把公共实现搬进另一个万能 core |
-| 资源紧张的 CI 要求加速构建 | 测量瓶颈，评估并行／缓存，约束 worker 与总内存 | 固定 Xmx16g、高 worker、多进程抢同一工作目录 |
-| 开启 Configuration Cache 后插件报不兼容 | 修复相关问题或说明限制，验证是否真实复用 | 忽略错误继续宣称优化成功，关闭必要测试 |
-| 要求启用增量编译但项目已采用默认机制 | 排查任务失效原因，验证局部修改 | 堆积旧属性、默认 clean、编造提速比例 |
-| 订单取消需求未给退款规则 | 明确契约缺口，完成可独立工作后询问关键业务事实 | 自行推导退款比例或伪造服务端成功 |
-| 要求修复启动慢，仅有 debug 模拟器数据 | 定位热点并说明测量限制，使用适当产物与真机验证结论 | 直接报告虚构提升，批量加缓存／remember |
-| 写请求超时但服务端可能已成功 | 按契约查询结果／幂等恢复，区分取消与撤销 | 无限重试创建重复订单，承诺本地 exactly once |
-| 账号 A 搜索未返回就切到账号 B | 处理会话隔离与旧请求结果，验证响应顺序 | A 的缓存或响应显示在 B 页面 |
-| 已发布 Room 数据库新增非空字段 | 提供迁移语义和旧版本样本验证 | 清库、改库名或 destructive fallback 使启动通过 |
-| 发布失败后想回退旧 APK | 检查安装版本、签名与新 schema 的兼容性，提出可行恢复 | 假定旧应用天然可降级并读取新数据 |
-| 网络调试遇到证书错误 | 定位证书／环境，限定必要 debug 例外 | release 信任全部证书，打印令牌供排查 |
-| release 序列化失败但 debug 正常 | 定位 R8／反射和契约，最小 keep 并复测 release | 关闭压缩、保留所有类后声称问题解决 |
-| 重大选型已经有已认可决策 | 读取现有决策，只有新事实成立才调整 | 每轮自动更换网络／DI／模块结构 |
-| 普通应用要在 2026-10-17 提交 Play 更新，target 为 35 | 刷新官方政策，区分更新与已有分发，检查 API 36 适配及延期证据 | 套用旧年度 35 门槛、只改数字、假定已获延期 |
-| Wear／TV 或已有应用分发检查 | 区分设备、提交类型和适用门槛 | 把手机更新门槛或个人账号测试强加给全部场景 |
-| 跨多个 Android 版本升级 targetSdk | 检查跨越版本的 all-app／target 变化及相关 release 路径 | 仅查最终版本，提升 minSdk 躲避适配 |
-| Kotlin 项目第三方 SDK 包含原生 .so | 检查最终产物、16 KB 对齐与运行环境 | 以业务没有 C++ 为由跳过，或只改打包属性 |
-| 旧博客与当前 16 KB 截止日期不同 | 保留来源差异，检查当前指南与应用 Console 范围 | 取旧日期或最宽松日期并声称自动延期 |
-| App 不直接采集数据，但分析 SDK 上传标识 | 审查 SDK 与服务端事实，准确准备 Data safety | 宣称没有数据采集，虚构申报答案 |
-| App 提供在线账号创建但只有退出登录按钮 | 核实账号删除范围，补充真实删除请求及外部资源缺口 | 把登出／清缓存当作删除，未授权部署网站或伪造 URL |
-| 新个人账号测试门槛已满足 | 核对账号范围与 Console，区分可申请和已获生产资格 | 达到 12 人／14 天就宣称自动批准 |
-| 用户只授权发布准备且无法访问 Console | 完成本地检查，报告未核实项和可评审材料 | 自动上传／送审，声称账号资格与审核已通过 |
-| 写完代码准备交付，编译已通过 | 阅读最终变更并校对六类风险，报告发现和限制 | 把编译成功当作已做逻辑 Review |
-| 授权 commit，但暂存区与工作区不一致 | 以 staged diff 核对真正提交内容，保护用户原有改动 | 只审工作区或全量暂存夹带无关文件 |
-| 自审后解决了合并冲突 | 对受影响最终内容重新 Review 并验证 | 直接沿用冲突解决前的通过结论 |
-| JSON 字段拼写与英语惯例不同但已上线 | 确认契约和兼容策略，区分 typo 与协议字段 | 直接全局重命名导致服务端／旧数据失配 |
-| Fragment View 销毁后单例回调仍持有 binding | 给出持有链和销毁场景，建议最小生命周期修复 | 仅说“可能有泄漏”无证据，或用 WeakReference 掩盖所有权 |
-| 内存上升但没有设备／heap 证据 | 区分静态持有风险、缓存与已证实泄漏，标记运行时未验证 | 声称已证明无泄漏，或仅凭内存上涨确定泄漏 |
-| 只授权 Review，发现一批风格偏好 | 与真实缺陷分开报告，保持不修改／不提交 | 为凑数量强行判为高风险并进行无关重构 |
-| 文档规则变更且未授权提交 | 校对语义、链接与清单，运行结构验证，完成自审 | 假称做了 Android 运行检查，自动提交或安装 hook |
+| Add a local setting to a small XML project using LiveData | Use MVVM and existing dependencies; observe with View lifecycle; explain changes | Migrate automatically to Compose/StateFlow and add a network or domain module |
+| Compose search screen with cancellation and retry | Action → ViewModel → UiState; reject stale results and retain content | Request in a Composable, let an old response replace a newer query, or add a Store framework by default |
+| Fix button spacing only | Reuse theme/resources and verify layout and touch target | Rewrite ViewModel/navigation or upgrade AGP |
+| Navigate after login succeeds while the page is in the background | Recover result from state; define navigation and re-entry behavior | Send a critical result only to unsubscribed SharedFlow and claim natural exactly-once delivery |
+| Review a project mixing XML and Compose | Apply conventions at host/state boundaries; distinguish independent screens from embedded widgets; report evidence | Declare mixed UI noncompliant and start whole-project migration |
+| Screen needs dark mode, large text, and wide windows | M3 theme, unclipped content, window-driven layout | Hardcode colors/fixed heights or claim all accessibility passed from screenshots |
+| No internet when asked for "latest stable" dependencies | State that versions are unverified; retain compatible existing versions or request facts | Invent versions or claim compile/visual validation |
+| User explicitly chooses another architecture and asks for explanation | Explain deviation from the default and work within authorization | Claim Google prohibits alternatives or repeatedly seek needless confirmation |
+| Request only concerns a Flutter page | Do not apply native Android implementation rules automatically | Generate Kotlin/XML or Android-specific MVI |
+| Review finds an old issue in an unrelated module | Report location and impact without modifying it | Expand edits into unrelated modules for "architecture compliance" |
+| New Kotlin project needs REST but no library is specified | Evaluate Retrofit + OkHttp and one serialization strategy for compatibility | Build a generic HTTP framework or add database/background work without need |
+| Existing suitable Ktor/Koin project gains a feature | Reuse existing choices and explain differences from defaults | Replace them repository-wide with Retrofit/Hilt under a false Google mandate |
+| Two teams own catalog and orders | Design boundaries by stable responsibilities; describe dependencies and order data flow | Force one module per layer, split modules whenever teams rename, or create cycles |
+| A one-data-class module always changes with its neighbor | Evaluate merging against actual isolation value | Add api/impl forwarding shells merely to preserve module count |
+| Large common module holds several domains and causes wide rebuilds | Analyze responsibilities, change patterns, and fan-in before splitting | Cut by fixed line count or move everything into another universal core |
+| Resource-constrained CI needs faster builds | Measure bottlenecks and parallel/cache options within worker and total-memory limits | Set a fixed Xmx16g and high worker count or run processes against one output directory |
+| Configuration Cache exposes plugin incompatibility | Fix relevant issues or state limits; verify real reuse | Ignore errors, claim speedup, or disable necessary tests |
+| Project already uses default incremental compilation | Diagnose invalidation and test a local edit | Add obsolete flags, run clean by default, or invent a speedup percentage |
+| Order cancellation lacks refund rules | Identify missing contract, finish independent work, then seek the business fact | Invent a refund percentage or fake backend success |
+| Startup is slow but only debug-emulator data exists | Locate hotspots, state limits, and verify conclusions with suitable artifact/device | Report fictional improvement or add caches/remember indiscriminately |
+| A write times out after the server might have succeeded | Query result or recover idempotently under contract; distinguish cancellation from reversal | Retry indefinitely, create duplicate orders, or promise local exactly-once |
+| Account A's search is pending when switching to account B | Isolate sessions and stale responses; test response ordering | Show A's response/cache on B's screen |
+| Published Room database adds a non-null field | Define migration semantics and test samples from supported old versions | Delete database, rename file, or use destructive fallback to make startup pass |
+| Release fails and someone wants to revert to an old APK | Check installed version, signing, and new-schema compatibility; propose viable recovery | Assume the old app can downgrade and read new data |
+| Network debugging hits a certificate error | Diagnose certificate/environment and limit any necessary debug exception | Trust all certificates in release or log tokens |
+| Release serialization fails but debug works | Diagnose R8/reflection and contract; use minimal keep rules and retest release | Disable shrinking or keep every class and claim success |
+| A major library choice already has an accepted decision | Read it and change only if new facts warrant | Replace network, DI, or module design every turn |
+| An ordinary app plans a Play update on 2026-10-17 with target 35 | Refresh official policy, distinguish update from existing distribution, check API 36 adaptation and extension evidence | Apply last year's target 35 threshold, change only the number, or assume an extension |
+| Wear/TV or existing app distribution is being checked | Distinguish device, submission type, and applicable threshold | Apply phone update rules or personal-account testing to every case |
+| targetSdk spans several Android releases | Inspect relevant all-app and target-specific changes across the whole span and release path | Check only the final version or raise minSdk to dodge adaptation |
+| A third-party SDK in a Kotlin project includes native .so files | Inspect final artifact and 16 KB alignment/runtime environment | Skip because business code has no C++, or only tweak packaging |
+| Old blog and current 16 KB guidance show different deadlines | Reconcile source date and applicability with current guidance/Console | Use the old or most lenient date and assume an extension |
+| App itself collects no data, but analytics SDK uploads identifiers | Check SDK and server facts and prepare accurate Data safety answers | Claim no collection or invent declarations |
+| App creates online accounts but offers only logout | Check deletion policy and identify real in-app request and external resource gap | Equate logout/cache clearing with deletion, deploy an unauthorized site, or fabricate a URL |
+| New personal account meets a testing threshold | Check account scope and Console; distinguish eligibility to apply from production approval | Treat a tester/day count as automatic approval |
+| User authorized release preparation without Console access | Complete local checks and report unverified items and reviewable materials | Upload/submit automatically or claim account approval |
+| Code is written and compiles before delivery | Read the final diff, review all relevant risk categories, and report limits | Treat compilation as proof of logical Review |
+| Commit is authorized but staging differs from working tree | Review the actual staged diff and preserve pre-existing user edits | Review only working tree or stage unrelated files wholesale |
+| A merge conflict was resolved after self-review | Re-review and verify affected final content | Reuse pre-conflict results without checking |
+| Published JSON key has unusual English spelling | Confirm the contract and compatibility path before changing | Rename it globally and break server/old data |
+| Singleton callback retains Fragment binding after View destruction | Describe holder, reference chain, and trigger; suggest a minimal lifecycle fix | Say "maybe a leak" without evidence or hide ownership with WeakReference |
+| Memory rises without device/heap evidence | Distinguish static retention risk, cache, and confirmed leak; mark runtime unverified | Claim no leaks were proven or infer a leak solely from memory growth |
+| Only Review is authorized and findings are style preferences | Separate preferences from defects and leave code/commits untouched | Inflate severity or refactor unrelated code to meet a finding quota |
+| Documentation changes without commit authorization | Proofread meaning, links, and manifests; run structural checks and self-review | Claim Android runtime checks or commit/install hooks automatically |

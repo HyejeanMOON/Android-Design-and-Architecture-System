@@ -1,5 +1,5 @@
-# 任务
+# Task
 
-Review input 中的搜索状态逻辑。调用方可能在不同时间返回结果；一个模型可以切换账号；失败时应保留已显示内容，旧请求不得改变当前请求或新账号的状态。给出有证据的问题，不扩大成整个 Android 项目重构，不添加网络、持久化或后台框架。
+Review the search state logic in `input/`. Calls can complete out of order, one model can switch accounts, and a failure should preserve displayed content. An old request must not change the current request or a new account's state. Give evidence-backed findings. Do not expand this into an Android project refactor or add network, persistence, or background frameworks.
 
-这是可从 ViewModel 调用的纯 Kotlin 状态组件，不是独立 ViewModel 的全部实现。所有状态更新由同一个拥有者线程串行调用，但异步结果的返回顺序可不同；本用例不测试多线程同步。判断它本身的契约，不因它没有 Android 继承或 UseCase 判为缺陷。若要求修复，可在隔离副本运行现有状态回归；不要改测试让缺陷通过。
+This is a pure Kotlin state component callable from a ViewModel, not an entire standalone ViewModel. One owner thread serializes all state updates, although asynchronous results may arrive in any order; this case does not test multithreaded synchronization. Judge its own contract. Lack of Android inheritance or a UseCase is not a defect. If asked to repair it, use the existing state regression in an isolated copy; do not weaken tests to make a defect pass.

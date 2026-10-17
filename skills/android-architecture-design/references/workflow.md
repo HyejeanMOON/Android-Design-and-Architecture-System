@@ -1,22 +1,22 @@
-# 公共流程
+# Shared workflow
 
-这是范围、冲突与交付的主要定义。领域文档补充技术要求，不另起审批或报告流程。
+This file owns scope, conflicts, and delivery. Domain references add technical guidance without separate approval or reporting processes.
 
-## 优先级与适用性
+## Priority and applicability
 
-遵守宿主指令和执行权限。用户当前明确要求决定目标，适用 AGENTS.md、项目契约和已接受决策决定实现基准；插件默认只补缺省，冲突时按实际授权解释和调整。官方建议保留条件，系统强制行为及适用发布政策是事实约束，不能通过偏好宣称已满足。
+Follow host instructions and execution permissions. The user's current explicit request defines the goal; applicable AGENTS.md instructions, project contracts, and accepted decisions set the implementation baseline. Plugin defaults fill gaps. Explain and resolve conflicts within actual authorization. Official recommendations have conditions; mandatory platform behavior and applicable release policies are factual constraints that preference cannot waive.
 
-先判断冲突规则是否同时适用：旧项目沿用仍适用的实现；独立新屏幕采用默认；嵌入组件不额外建立状态架构。架构命名差异不是逻辑缺陷，真实泄漏／安全／数据问题也不因历史写法而豁免。
+First determine whether apparently conflicting rules apply to the same change. Keep suitable legacy implementations; apply defaults to independent new screens; embedded components need no additional state architecture. Different architecture labels are not automatically defects. Real leaks, security issues, and data errors do not become acceptable merely because the code is old.
 
-缺失信息先从项目查证；仅当它影响业务语义、数据损失、兼容或外部操作范围且无法合理确定时询问，继续独立工作。已明确的授权不重复确认，其余可逆细节沿用项目并说明必要假设，不虚构后端契约。
+Investigate missing facts in the project first. Ask only when unresolved facts affect business meaning, data loss, compatibility, or external actions. Continue independent work. Do not request authorization already given. For other reversible details, follow project practice and state necessary assumptions; never invent a backend contract.
 
-## 一次任务
+## One task
 
-1. 明确可观察结果、相关输入／异常与非目标，阅读必要调用方、依赖和已有验证。
-2. 完成授权范围内改动；只读审查仅报告，不自动修复。无关旧问题可提示，不顺带重构、升级或全局换主题。
-3. 按风险验证并执行 [Review](code-review.md)。小文案／间距检查资源与布局；状态、存储、系统或发布变更才扩展对应检查。修复后复查相关部分，未变化的有效测试不重复运行。
-4. 简述改动及原因、实际检查结果、剩余问题和限制。缺少工具不能算通过，也不自动等于发现缺陷或阻断所有独立工作；已知相关重大问题不得隐瞒。
+1. Identify observable results, relevant inputs and failure paths, and out-of-scope work. Read the necessary callers, dependencies, and existing checks.
+2. Complete authorized changes. A review-only task reports findings without editing. Mention unrelated legacy issues when useful, but do not expand into refactoring, upgrades, or a global theme change.
+3. Verify proportionally and perform [Review](code-review.md). Small copy or spacing edits need resource and layout checks; state, storage, system, and release changes warrant their respective checks. Recheck affected parts after fixes; do not rerun still-valid tests for unchanged content.
+4. Explain changes and reasons, checks actually run, remaining issues, and limits. Missing tools are not a pass, but do not automatically imply a defect or block unrelated work. Disclose known material issues in scope.
 
-复用已有 Wrapper、CI、测试及决策；不为每次修改新增工具／文档。重要选型、数据或边界决策才记录背景、选择、代价、验证及重新评估条件，无新事实不每轮推翻。
+Reuse the project's Wrapper, CI, tests, and decisions. Do not add tooling or documents for every edit. Record context, choice, cost, validation, and reconsideration criteria only for material library, data, or boundary decisions. Do not reopen accepted choices without new facts.
 
-实现、提交、生成 release、上传、送审及正式可用分别报告。外部操作按已有授权执行，不自动安装 hook、改签名身份或发布。未验证项明确标注；不冒称独立批准、无泄漏或保证审核通过，不关闭检查掩盖失败。
+Report implementation, commit, release artifact, upload, review submission, and public availability separately. Perform external actions only within existing authorization. Do not automatically install hooks, alter signing identity, or publish. Mark unverified items; do not claim independent approval, absence of leaks, or guaranteed store acceptance. Do not disable checks to hide failures.

@@ -1,26 +1,32 @@
-# 版本记录
+# Changelog
+
+## 1.0.0 — 2026-10-17
+
+- Translate the plugin interface, skill instructions, technical references, maintenance guidance, and evaluation material into English.
+- Preserve the existing architectural defaults and evaluation boundaries. Version 1.0.0 marks an English-language release; it does not imply Android device, host installation, or model-behavior validation.
+- Runtime Markdown now totals 57,187 UTF-8 bytes across 19 files (47,449 in 0.6.1); the skill entry is 2,631 bytes (2,235 in 0.6.1). These are size measurements, not token or quality scores.
 
 ## 0.6.1 — 2026-10-17
 
-- 收敛公共流程、Review、旧项目互操作和 UI 规范；默认只作用于新增／授权调整区域，旧方案不被全局迁移。
-- 澄清只读审查不修代码、实现任务修范围内问题，提交前复用未变化测试，不因理论风险扩大整改或审批。
-- 精简模块／构建／视觉要求与重复来源索引；Play 保留动态核对和适配闭环，移除运行时固定日期／API 门槛以降低过期误导。
-- 保留全部领域入口和两个 Review 时点，不改变评测脚本或样例逻辑，不宣称因此消除所有风险。
+- Consolidated shared workflow, Review, legacy interoperability, and UI guidance. Defaults apply only to new or explicitly updated areas; legacy solutions are not globally migrated.
+- Clarified that review-only tasks report without editing, implementation tasks fix within authorized scope, and valid tests for unchanged content can be reused. Theoretical risks do not widen remediation or approval scope.
+- Streamlined modularization, builds, visuals, and repeated source notes. Kept dynamic Play verification and adaptation while removing hardcoded historical API/date thresholds from runtime guidance.
+- Preserved all domain entry points and both Review checkpoints. Did not change evaluation scripts or fixture logic or claim that all risks were eliminated.
 
 ## 0.6.0 — 2026-10-17
 
-- 新增老旧 XML／Compose 混用项目专项，明确渐进修改、宿主生命周期、共享状态、导航和主题兼容边界。
-- 澄清独立 Compose 屏幕与 XML 内嵌 Compose 组件的区别；默认架构不触发旧页面全量迁移。
-- 添加专项审查场景；本次为规则变更，不新增 App 工程，不声称已在真实混用项目运行验证。
+- Added guidance for old projects mixing XML and Compose, covering incremental changes, host lifecycle, shared state, navigation, and themes.
+- Distinguished independent Compose screens from XML-embedded Compose components; architecture defaults do not force wholesale migration.
+- Added specialized review scenarios. This was a rule change, without an app project or claimed validation on a real mixed project.
 
 ## 0.5.0 — 2026-10-17
 
-- 将需求、验证、决策／完成三份重叠流程合并为 `references/workflow.md`，缩短技能入口和 Review；只有触及专项才加载细节，链接不要求递归遍历。
-- 保留 XML MVVM、Compose MVI、Clean、Material 3、模块化、Gradle、发布和两个 Review 时点；明确现有适用方案与用户选择优先，不自动扩大迁移或重复执行未变化测试。
-- 深化依赖升级、弱网、后台任务和诊断，加入插件维护与有边界的样例／回归验证。
-- 旧 `requirements-acceptance.md`、`verification.md`、`decisions-completion.md` 路径被合并；引用技能入口的用户无需迁移 App，直接引用旧文件的配置需改到 workflow.md。
-- 包结构／本地回归与 Android 设备／模型评测分开报告；见版本验证记录。
+- Merged overlapping requirements, verification, and decision/completion flows into `references/workflow.md`. Shortened the skill entry and Review guidance; load domain details only when touched, rather than recursively following links.
+- Kept XML MVVM, Compose MVI, Clean, Material 3, modularization, Gradle, release, and both Review checkpoints. Existing suitable solutions and user choices take precedence; no automatic scope expansion or rerun of valid unchanged tests.
+- Expanded dependency upgrades, weak-network behavior, background work, and diagnosis. Added maintenance guidance and bounded fixtures/regressions.
+- Merged former `requirements-acceptance.md`, `verification.md`, and `decisions-completion.md` paths. Users invoking the skill need no app migration; configurations linking those old files should point to workflow.md.
+- Reported package structure/local regressions separately from Android device/model evaluations; see the version verification records.
 
 ## 0.1.0–0.4.0
 
-在本对话中逐步加入架构与 UIUX、选型与构建、工程质量与 Play、校对与 Review。历史版本当时只有结构校验和人工自审记录，不能倒推已进行 Android 设备或独立模型评测。
+Architecture and UI/UX, selection and builds, engineering quality and Play, then proofreading and Review were added iteratively in this conversation. Those versions had structural checks and author self-review only. Do not infer Android device or independent model evaluation from them.

@@ -1,19 +1,19 @@
-# 分层与状态
+# Layers and state
 
-官方推荐 UI／Data、UDF，Domain 按需。本插件的 Clean 依赖倒置是默认约定，不是官方唯一布局；旧项目变化按公共流程限制。
+Google recommends UI and data layers with unidirectional data flow; a domain layer is optional. This plugin's Clean dependency inversion is a default convention, not Google's only official layout. Limit changes to legacy projects through the shared workflow.
 
 ```text
-编译（有独立业务边界时）：presentation → domain ← data；app 装配
-运行：UI → ViewModel → [UseCase] → Repository 契约 → 实现 → DataSource
-状态：可信数据 → 屏幕状态 → UI；动作反向进入状态拥有者
+Compile time, when a separate business boundary exists: presentation → domain ← data; app assembles them
+Runtime: UI → ViewModel → [UseCase] → Repository contract → implementation → DataSource
+State: trusted data → screen state → UI; actions return to the state owner
 ```
 
-- Domain 是纯 Kotlin 业务模型、必要契约和有价值的 UseCase，不依赖 UI、Context、Room Entity 或网络 DTO；可按契约用协程／Flow。
-- Data 封装数据源和一致性，UI／ViewModel 不直接访问 DAO、HTTP、DataStore。仅语义确有差异时映射模型，不能把内部 DTO 当公共业务契约。
-- Presentation 提供只读状态和业务动作；权限、窗口与导航执行归 UI。app 复用既有 DI 或手工装配。
-- 小功能可在同模块以包／契约隔离，ViewModel 直接调 Repository，无需空壳 UseCase。既有官方分层布局不因目录不同被全量重构。
-- 状态放合适拥有者：局部展开／焦点／动画不全进 ViewModel。订阅策略按成本选，恢复只保存适合的小输入／ID，持久业务数据另存；配置变化存活不代表进程死亡恢复。
-- ViewModel 不保留 View、Activity、binding、NavController 或短命 Context。纯 UI 导航可回调；业务结果先成状态，由 UI 导航并定义返回／重返策略。
-- 关键结果不只靠易丢失的 Channel／SharedFlow／SingleLiveEvent，暂态消息可用确认状态；不承诺天然 exactly once。
+- Domain contains pure Kotlin business models, necessary contracts, and valuable UseCases. It does not depend on UI, Context, Room entities, or network DTOs. Coroutines and Flow may be used where the contract calls for them.
+- Data encapsulates sources and consistency. UI and ViewModel do not directly access DAOs, HTTP, or DataStore. Map models where semantics differ; do not expose internal DTOs as public business contracts.
+- Presentation exposes read-only state and business actions. The UI handles platform permissions, windows, and navigation execution. The app reuses existing DI or manual assembly.
+- A small feature may separate packages and contracts in one module, with a ViewModel calling a Repository directly. Do not create empty UseCases. Do not refactor an existing sound layered layout solely because directories differ.
+- Put state with the appropriate owner. Local expansion, focus, and animation need not all enter a ViewModel. Choose subscription strategies by cost. Save only suitable small inputs or IDs for restoration; persist business data separately. Surviving configuration changes is not process-death recovery.
+- A ViewModel must not retain a View, Activity, binding, NavController, or short-lived Context. The UI can navigate for purely visual events. Represent important business results as state before the UI navigates, with defined return and re-entry behavior.
+- Do not rely only on lossy Channel, SharedFlow, or SingleLiveEvent delivery for critical results. Acknowledged state can represent transient messages; do not promise exactly-once delivery by default.
 
-并发／后台／模块细节按入口触发读取。依据：[官方建议](https://developer.android.com/topic/architecture/recommendations)、[Domain](https://developer.android.com/topic/architecture/domain-layer)、[事件](https://developer.android.com/topic/architecture/ui-layer/events)、[保存状态](https://developer.android.com/topic/libraries/architecture/viewmodel/viewmodel-savedstate)。
+Load concurrency, background, or module details only when relevant. Sources: [Architecture recommendations](https://developer.android.com/topic/architecture/recommendations), [Domain layer](https://developer.android.com/topic/architecture/domain-layer), [UI events](https://developer.android.com/topic/architecture/ui-layer/events), [Saved state](https://developer.android.com/topic/libraries/architecture/viewmodel/viewmodel-savedstate).

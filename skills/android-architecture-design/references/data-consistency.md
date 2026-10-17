@@ -1,31 +1,31 @@
-# 一致性、并发与弱网
+# Consistency, concurrency, and weak networks
 
-只处理需求涉及的读取／写入、缓存或同步；弱网处理不自动等于引入离线优先数据库或同步引擎。
+Address reads, writes, caching, or synchronization only when the task touches them. Handling a weak network does not automatically require an offline-first database or sync engine.
 
-## 所有权与并发
+## Ownership and concurrency
 
-明确可信来源、Repository 的读写入口、本地与远端职责及 UiState 派生方式。共享业务数据走契约，不互改 ViewModel；已确认结果、请求中和乐观状态区分，乐观写要有失败恢复。缓存、订阅和在途请求按会话隔离，账号切换不能让旧结果进入新身份。
+Identify the source of truth, Repository read/write entry points, local and remote responsibilities, and how UiState is derived. Share business data through contracts rather than mutating another ViewModel. Distinguish confirmed results, in-flight requests, and optimistic state; optimistic writes need failure recovery. Isolate caches, subscriptions, and in-flight requests by session so an old result cannot enter a new account.
 
-| 操作 | 要明确的策略 |
+| Operation | Strategy to define |
 | --- | --- |
-| 搜索／过滤 | 取消或请求身份排除旧结果；防抖按交互需要，不盲目固定时长 |
-| 刷新／分页 | 合并／排队／忽略重复，游标随查询条件重置，失败重试不重复合并页面 |
-| 提交／支付／删除 | UI 防重加业务入口保护；跨进程／网络写需要后端幂等契约，本地布尔值不足 |
-| 多表／多字段 | 需要原子性时本地事务；跨 HTTP 与数据库不能假装可统一回滚 |
-| 并发编辑 | 版本／冲突检测或合并规则来自契约，不自行决定最后写覆盖 |
+| Search/filter | Cancel or reject stale results by request identity. Debounce when the interaction needs it, not by a universal duration. |
+| Refresh/paging | Coalesce, queue, or ignore duplicates; reset cursors when query conditions change; avoid merging the same page twice on retry. |
+| Submit/payment/delete | Guard at both UI and business entry points. Cross-process/network writes require a backend idempotency contract; a local Boolean is insufficient. |
+| Multiple tables/fields | Use local transactions where atomicity matters; do not pretend HTTP and database writes share one rollback. |
+| Concurrent edits | Take version/conflict detection or merge rules from the contract; do not assume last-write-wins. |
 
-只在必要时互斥，不长期持锁等待网络。StateFlow.update 的可重试状态计算不执行外部副作用。挂起函数由实现保证主线程安全，阻塞工作按类型切 dispatcher；取消必须传播。
+Lock only where needed and do not hold locks across network waits. A retryable `StateFlow.update` calculation must not perform external side effects. Suspending implementations must be main-safe; dispatch blocking work by type. Propagate cancellation.
 
-超时或取消等待不代表服务端撤销。结果未知的写操作按契约查询／幂等恢复；只对暂时错误有限重试并退避，认证和输入失败不无限重试。令牌刷新按会话协调并发。
+Timeout or cancellation of the wait does not mean the server reversed a write. For uncertain writes, query or recover idempotently according to contract. Retry only transient errors with bounds and backoff; do not retry authentication or input failures forever. Coordinate token refresh per session.
 
-## 离线与弱网体验
+## Offline and weak-network experience
 
-- 区分首次加载无数据、已有内容刷新失败、缓存过期、提交结果未知、待同步。必要时保留内容与输入并标明新鲜度／待处理状态，不将有缓存当最新成功，也不将网络失败当空列表。
-- 超时、手动重试和自动重试策略来自交互与业务成本；网络可用信号不证明服务可达，不只凭 connectivity 回调决定成败。
-- 分页失败保留已加载内容，重试对应页；恢复联网不自动重放支付等非幂等写，也不重复抢用户正在编辑的状态。
-- 只在已明确离线需求时设计本地可信来源、持久待同步队列／outbox、冲突与失败反馈，结合 [background-work.md](background-work.md)；无需完整离线能力的在线应用仍应能解释无网失败。
-- 草稿和未同步用户写入不可作为缓存丢弃。缓存键、容量、失效和账号隔离必须明确，不声称无后端契约的 exactly once。
+- Distinguish first load with no data, refresh failure with existing content, stale cache, unknown submit result, and pending sync. Retain content/input and show freshness or pending state when needed. Cached data is not automatically current, and network failure is not an empty list.
+- Set timeout and manual/automatic retry from interaction and business cost. A connectivity signal does not prove the service is reachable; do not decide success solely from a connectivity callback.
+- Keep loaded pages when later paging fails and retry the affected page. Reconnection must not replay non-idempotent payments automatically or overwrite edits in progress.
+- Only for an explicit offline requirement, design a local source of truth, durable pending queue/outbox, conflict behavior, and failure feedback with [background work](background-work.md). An online-only app still needs a clear offline failure path.
+- Drafts and unsynced user writes cannot be discarded as cache. Define cache keys, capacity, invalidation, and account isolation. Do not claim exactly-once writes without a backend contract.
 
-验证相关场景：乱序响应、双击、取消后返回、超时但写成功、断网／慢网、分页重试、恢复联网和账号切换。使用可控数据源与时间，不为每次变更引入真实网络测试。
+Verify relevant out-of-order responses, double taps, results after cancellation, timeout after successful write, offline/slow network, paging retry, reconnection, and account switch. Use controlled data sources and time; do not add a real network test for every change.
 
-依据：[Data 层](https://developer.android.com/topic/architecture/data-layer)、[离线优先](https://developer.android.com/topic/architecture/data-layer/offline-first)、[协程实践](https://developer.android.com/kotlin/coroutines/coroutines-best-practices)。
+Sources: [Data layer](https://developer.android.com/topic/architecture/data-layer), [Offline-first](https://developer.android.com/topic/architecture/data-layer/offline-first), [Coroutines best practices](https://developer.android.com/kotlin/coroutines/coroutines-best-practices).

@@ -1,10 +1,10 @@
 {
   "name": "android-architecture-design",
-  "version": "0.6.1",
-  "description": "Android Clean Architecture、XML MVVM、Compose MVI 与 Material 3 UIUX 开发和审查约束。",
+  "version": "1.0.0",
+  "description": "Android Clean Architecture, XML MVVM, Compose MVI, and Material 3 UI/UX development and review guidance.",
   "skills": "./skills/",
   "interface": {
     "displayName": "Android Architecture & Design",
-    "shortDescription": "Android 架构与 Material 3 设计约束"
+    "shortDescription": "Android architecture and Material 3 design guidance"
   }
 }

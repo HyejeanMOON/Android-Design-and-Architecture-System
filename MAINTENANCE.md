@@ -1,30 +1,30 @@
-# 插件维护
+# Plugin maintenance
 
-只给插件维护者使用，不是 Android 应用每次执行的流程。
+For plugin maintainers, not a process to run for every Android app task.
 
-## 规则所有权
+## Rule ownership
 
-| 内容 | 唯一主要定义 |
+| Content | Primary owner |
 | --- | --- |
-| 默认边界和按需索引 | SKILL.md |
-| 范围、冲突、验收、证据与交付 | references/workflow.md |
-| Review 清单与两个时点 | references/code-review.md |
-| 技术行为 | 对应专项；公共流程只链接，不再复制 |
-| 安装、更新与评测 | 仓库 README、本文、CHANGELOG 和 evals |
+| Defaults and selective index | SKILL.md |
+| Scope, conflicts, acceptance, evidence, delivery | references/workflow.md |
+| Review checklist and checkpoints | references/code-review.md |
+| Technical behavior | The relevant specialist reference; shared workflow links to it rather than copying it |
+| Installation, updates, evaluation | Repository README, this file, CHANGELOG, and evals |
 
-新增规则前先确认现有条目能否修正；只有反复真实需求或可复现失败才扩大约束，不为每个理论风险加一个机制。要求同时写清触发条件、事实来源和验证方法。改变公共语义时修改唯一主定义，并检查调用方；链接只用于按需导航，不表示全部递归加载。
+Before adding a rule, see whether an existing one can be corrected. Expand constraints for repeated real needs or reproducible failures, not every theoretical risk. State trigger, factual source, and verification method. Update the single owner for shared semantics and inspect callers. Links enable selective navigation, not recursive loading of the entire package.
 
-## 变更与政策维护
+## Changes and policy maintenance
 
-- 区分新增能力、修正缺陷和默认行为变化。0.x 阶段有明显默认／组织变化提升次版本，小修提升补丁；1.0 后破坏兼容提升主版本。两份 manifest 与 README 版本同步，不能无测试宣称所有宿主兼容。
-- 更新说明记录默认差异、被合并路径、保留能力和使用者动作。已接受项目决策不因更新插件自动失效；新默认先对后续任务生效，不自动迁移用户 App。
-- 政策按具体发布任务重新核对；本仓库快照注明日期，不宣称永远最新。没有监控授权不创建定时任务。发现过期时更新来源和日期，保留必要的历史变化说明，避免旧博客覆盖当前执行要求。
-- 来源失效先找维护方迁移；不因为链接变化自动换依赖坐标。删除／合并规则前搜索所有调用、评测和示例；删除失效条目而非层层追加反例。
+- Distinguish new capabilities, defect fixes, and default changes. During 0.x, meaningful default or organization changes raised the minor version and small fixes the patch version. From 1.0 onward, breaking compatibility raises the major version. Synchronize both manifests and README. Do not claim universal host compatibility without testing.
+- Record default differences, merged paths, retained capabilities, and user actions in release notes. Previously accepted project decisions remain in force after a plugin update; new defaults apply to future tasks and do not migrate user apps automatically.
+- Recheck policy for each actual release task. Date repository snapshots rather than claiming perpetual freshness. Do not create recurring monitors without authorization. When a source is stale, update its current location and date, keeping only necessary historical context.
+- If a source moves, find its maintainer's new location before changing dependency coordinates. Search callers, evaluations, and examples before deleting or merging rules. Remove obsolete entries instead of layering exceptions indefinitely.
 
-## 更新检查
+## Update checks
 
-运行结构验证、校验器测试和 skill-creator 校验，记录入口与全部运行时 Markdown 字节变化，用于发现体积回涨，不用任意大小阈值冒充正确性。源代码／样例变更执行相应回归；纯文案改动无需无条件重编译全部样例。
+Run structural validation, validator tests, and skill-creator validation. Record entry and total runtime Markdown byte changes to spot growth, without treating a size threshold as proof of quality. Run relevant regressions for source/example logic changes; prose-only changes do not require recompiling every fixture.
 
-评测要同时含真实缺陷、正确对照和范围控制。评估输入隔离答案，不把作者自审或简单关键词检查当独立模型评测。新增脚本需测试失败路径；发现漏报／误报时用最小复现修正规则，不训练式堆砌关键词。
+Evaluations should include genuine defects, correct controls, and scope control. Isolate inputs from answers; author self-review or keyword matching is not an independent model evaluation. Test failure paths for new scripts. Use minimal reproductions to correct omissions or false positives rather than piling up keywords.
 
-不得自动安装 hook、启动其他代理、联网上传评测材料或操作用户仓库。执行权限沿宿主规则；评测使用临时目录及脱敏样例。通过测试只能支持实际覆盖范围，不能承诺消除全部潜在风险。
+Do not automatically install hooks, launch other agents, upload evaluation material, or operate a user's repository. Execution permissions come from the host. Use temporary directories and redacted fixtures. Passing tests supports only their actual coverage, not a promise to eliminate all risks.

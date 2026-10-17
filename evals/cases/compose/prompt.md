@@ -1,5 +1,5 @@
-# 任务
+# Task
 
-Review input 中的 Compose 源码切片。产品要求每次进入该 Route 的 composition 时刷新一次，普通重组不应重复刷新；UI 的既有极简显示无需改版。只报告有依据的问题，不更换 UI／DI／导航框架，不因 BasicText 是底层组件就自动判为缺陷。没有执行 UI 测试时说明限制。
+Review the Compose source slice in `input/`. Product behavior requires one refresh each time this Route enters composition, without refreshing on ordinary recomposition. The existing minimal display need not be redesigned. Report evidence-backed problems only. Do not replace UI, DI, or navigation frameworks, and do not call BasicText a defect merely because it is a low-level component. State limits if no UI test was run.
 
-refresh 回调由装配端提供，它会触发真实请求；这里只展示接口以隔离后端。不要因未给出完整 Repository／网络实现虚构其他错误。
+The assembly layer provides the refresh callback, which triggers a real request. Only its interface appears here to isolate the backend. Do not invent errors because the full Repository or network implementation is absent.

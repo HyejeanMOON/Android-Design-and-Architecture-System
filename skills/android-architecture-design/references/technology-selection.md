@@ -1,33 +1,33 @@
-# 技术选型与依赖维护
+# Technology selection and dependency maintenance
 
-## 缺省选择
+## Default choices
 
-用户明确要求 → 项目已有且仍适用的方案 → 适用的 Google／AndroidX 推荐方案 → 成熟且维护中的第三方库。官方示例采用某库不等于正式强制推荐；下表不是整套必装清单。
+Order of preference: explicit user requirement → suitable existing project solution → applicable Google/AndroidX recommendation → mature, maintained third-party library. A library appearing in an official sample is not necessarily a mandatory recommendation. This table is not a stack to install wholesale.
 
-| 能力 | 默认候选和边界 |
+| Capability | Default candidate and boundary |
 | --- | --- |
-| 语言／异步 | 新代码 Kotlin、coroutines／Flow；保留 Java 互操作 |
-| UI／状态 | 按 UI 技术选择 Compose Material 3／XML Material Components、Lifecycle／ViewModel |
-| REST／HTTP | Retrofit + OkHttp；原始 HTTP／下载可仅用 OkHttp，非 REST 协议另评估 |
-| JSON | 新 Kotlin 项目优先考虑 kotlinx.serialization；已有适用 Moshi／Gson 保留，按契约和 converter 选主要方案 |
-| 存储 | Room 用于结构化查询／事务，DataStore 用于小型设置；不无故迁移已有方案，不等同加密凭据库 |
-| DI | 确需框架时优先 Hilt；小图可手工注入，已有适用 Koin／Dagger 保留 |
-| 后台／分页 | 持久可延期任务考虑 WorkManager；大数据分页考虑 Paging，只按需求引入 |
-| 图片 | 新 Compose 优先考虑 Coil；XML 复用已有 Glide／Coil，按需网络与 decoder |
-| 导航／测试 | 复用匹配现有 UI 的 AndroidX／既有测试方案，不自动迁移框架 |
+| Language/asynchrony | Kotlin and coroutines/Flow for new code; retain Java interoperability |
+| UI/state | Compose Material 3 or XML Material Components according to UI technology, with Lifecycle/ViewModel |
+| REST/HTTP | Retrofit + OkHttp; raw HTTP or downloads may use OkHttp alone; evaluate non-REST protocols separately |
+| JSON | Consider kotlinx.serialization for new Kotlin code; retain suitable Moshi/Gson, selecting the primary option for contracts and converters |
+| Storage | Room for structured queries/transactions, DataStore for small settings; do not migrate suitable storage without cause or treat either as an encrypted credential vault |
+| DI | Prefer Hilt when a framework is warranted; manual injection works for small graphs; retain suitable Koin/Dagger |
+| Background/paging | Consider WorkManager for deferrable persistent work and Paging for large datasets, only when needed |
+| Images | Consider Coil for new Compose images; reuse suitable Glide/Coil in XML, with network and decoder needs in mind |
+| Navigation/testing | Reuse AndroidX or existing solutions fitting the current UI; do not migrate frameworks automatically |
 
-第三方默认是插件偏好。引入说明需求、已有能力为何不足、维护方、许可证与兼容性即可，不每个库新建 ADR。使用已有版本目录／集中管理及适用 BOM，不用动态版本或重复管理体系。
+Third-party defaults are plugin preferences. When introducing one, state the need, why existing capabilities are insufficient, maintainer, license, and compatibility. Do not create an ADR for every library. Reuse the version catalog or centralized dependency management and applicable BOMs; avoid dynamic versions or duplicate management systems.
 
-网络配置封装在 data 边界；复用适当作用域客户端／loader，不强制不同安全边界共享实例。不对所有库包一层万能接口。
+Keep network configuration inside the data boundary. Reuse clients/loaders with suitable scope, without forcing separate security domains to share instances. Do not wrap every library in a universal interface.
 
-## 升级与废弃 API
+## Upgrades and deprecated APIs
 
-升级、已知风险、政策期限或当前任务被旧 API 阻塞时才启动维护，不因启用技能扫描并升级整个仓库。
+Start maintenance when an upgrade, known risk, policy deadline, or deprecated API actually blocks the task. Enabling the skill does not trigger a repository-wide upgrade.
 
-1. 记录当前版本与直接／传递依赖；核对维护方发布说明、迁移说明、已知风险和相关官方兼容表。没有信息时标注未核实，不编造最新稳定版本或漏洞结论。
-2. 确认受影响的 AGP／Gradle／JDK、Kotlin／Compose compiler／KSP、SDK／NDK 及相关库组合；这些是调查项，不代表每次全升级。遵守目标版本实际机制，不照抄旧插件配置。
-3. 选择解决需求或风险的最小可维护组合；不盲目长期钉死旧版本，也不自动追新。必要且已授权的兼容调整可完成；可选大迁移提出建议，不扩大范围。
-4. 检查废弃 API 的替代是否满足旧系统和现有行为，保留必要兼容分支；不要只消除警告却改变语义。验证编译／lint、关键行为、适用 release 与迁移；更新实际锁定／目录，不硬 force 传递版本隐藏冲突。
-5. 记录破坏性变化、回退条件与剩余问题。涉及持久格式时按 [data-migrations.md](data-migrations.md) 处理，回退依赖不等于可回退用户数据。
+1. Record current direct and transitive versions; check maintainer release notes, migration notes, known risks, and relevant official compatibility tables. Mark missing information unverified; do not invent latest stable versions or vulnerability conclusions.
+2. Check affected AGP/Gradle/JDK, Kotlin/Compose compiler/KSP, SDK/NDK, and library combinations. These are investigation points, not a requirement to upgrade everything. Use mechanisms for the actual target version rather than copying obsolete plugin configuration.
+3. Choose the smallest maintainable combination that addresses the need or risk. Neither pin obsolete versions indefinitely nor chase every release. Complete necessary authorized compatibility work; recommend optional major migrations without widening scope.
+4. Check that replacement APIs preserve behavior on supported systems; retain compatibility paths when needed. Silencing a warning must not change semantics. Verify compilation/lint, key behavior, applicable release builds, and migrations. Update the real lockfile/catalog; do not hide conflicts by forcing transitive versions blindly.
+5. Record breaking changes, rollback conditions, and remaining issues. Use [data migrations](data-migrations.md) for persistent formats; rolling back a dependency does not roll back user data.
 
-依据：[升级策略](https://developer.android.com/build/version-upgrade-strategies)、[AGP](https://developer.android.com/build/releases/about-agp)、[Hilt](https://developer.android.com/training/dependency-injection/hilt-android)、[Data 层](https://developer.android.com/topic/architecture/data-layer)、[Retrofit](https://github.com/lysine-dev/retrofit)、[OkHttp](https://github.com/lysine-dev/okhttp)、[serialization](https://kotlinlang.org/docs/serialization.html)、[Coil](https://coil-kt.github.io/coil/)。
+Sources: [Upgrade strategies](https://developer.android.com/build/version-upgrade-strategies), [AGP](https://developer.android.com/build/releases/about-agp), [Hilt](https://developer.android.com/training/dependency-injection/hilt-android), [Data layer](https://developer.android.com/topic/architecture/data-layer), [Retrofit](https://github.com/lysine-dev/retrofit), [OkHttp](https://github.com/lysine-dev/okhttp), [Serialization](https://kotlinlang.org/docs/serialization.html), [Coil](https://coil-kt.github.io/coil/).

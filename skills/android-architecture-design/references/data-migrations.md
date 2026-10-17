@@ -1,26 +1,26 @@
-# 数据迁移与兼容
+# Data migrations and compatibility
 
-变更数据库结构、配置格式、持久模型、缓存键、序列化或服务端字段时使用。区分全新安装、覆盖升级和从较老受支持版本升级，不能只验证空数据库启动。
+Use this when changing database schema, configuration format, persistent models, cache keys, serialization, or server fields. Distinguish new installs, in-place upgrades, and upgrades from older supported versions. An empty database startup test is insufficient.
 
 ## Room
 
-- 依据目标项目实际 Room 版本设计 schema 版本、自动或手动迁移；导出并保留历史 schema，按 flavor／variant 区分需要不同结构的数据库。
-- 重命名、字段默认值、非空约束、索引、外键和表拆分都要检查旧数据语义。结构校验通过不代表旧记录内容正确，应检查记录及关联关系。
-- 覆盖所有仍支持的旧数据库版本到新版本的路径，包含跨版本直接升级。用该 Room 版本对应的迁移测试工具及真实结构样本验证，不照搬其他大版本 API。
-- 不为了启动成功直接删库、改数据库文件名或启用 fallbackToDestructiveMigration。只有明确可丢弃数据且用户授权破坏性策略时才考虑，并限定范围。
-- 大量数据迁移检查事务、耗时、空间和失败恢复；保留用户数据优先，不能在主线程执行长迁移。
+- Use the target project's actual Room version for schema versions and automatic/manual migrations. Export and retain historical schemas; distinguish flavors/variants when their databases differ.
+- Check old data semantics for renames, defaults, NOT NULL constraints, indexes, foreign keys, and table splits. Schema validation alone does not prove records and relationships are correct.
+- Cover every still-supported old-to-new database path, including direct upgrades across multiple versions. Use migration test tools for that Room version and realistic schema samples; do not copy APIs from a different major version.
+- Do not delete a database, change its filename, or enable fallbackToDestructiveMigration just to make startup succeed. Consider destructive behavior only when the data is explicitly disposable and the user authorizes it, within a defined scope.
+- For large migrations, check transaction behavior, duration, space, and failure recovery. Prioritize retaining user data; do not run a long migration on the main thread.
 
-## 配置、文件和接口
+## Settings, files, and APIs
 
-- SharedPreferences → DataStore 或文件格式迁移需要定义触发、成功标记、重复执行安全、旧数据保留／清理及失败行为；不要未确认成功就删除原数据。
-- 序列化字段重命名、缺失／null、新枚举值和类型变化按实际契约兼容。不要用无意义默认值掩盖损坏订单、金额或账号信息。
-- 缓存可以按版本失效，但用户编辑、草稿和未同步写入不能当缓存丢弃。备份恢复后的数据与身份绑定、文件路径和加密密钥也要考虑。
-- 客户端发布期间旧新版本可能同时访问后端。改接口、深链和持久标识前确认兼容窗口与所有调用方，不只更新本地 DTO。
+- SharedPreferences-to-DataStore and file-format migrations need a trigger, success marker, repeat-safe behavior, old-data retention/cleanup, and failure handling. Do not delete the source before confirming success.
+- Handle renamed serialization fields, missing/null values, new enum values, and type changes according to the real contract. Meaningless defaults must not hide corrupt orders, amounts, or account information.
+- Cache may expire by version, but user edits, drafts, and unsynced writes are not disposable cache. Consider identity binding, file paths, and encryption keys after backup restore.
+- During rollout, old and new clients may access the backend concurrently. Confirm compatibility windows and callers before changing APIs, deep links, or persistent identifiers; updating a local DTO alone is insufficient.
 
-## 升级、降级和恢复
+## Upgrade, downgrade, and recovery
 
-记录支持的来源版本、转换规则、可能损失及失败处理。不要默认数据库可降级：停止发布／回退服务端不等于旧 APK 可以读取新 schema；通常需要前向修复或事先验证的兼容策略。
+Record supported source versions, transformations, possible loss, and failure handling. Do not assume database downgrade works. Stopping rollout or reverting a backend does not imply an old APK can read a newer schema; a forward fix or prevalidated compatibility plan is usually needed.
 
-验证至少涵盖相关旧版本样本、缺失／异常数据、重复执行及升级后核心读写；需要恢复机制时验证中断和重启。测试数据脱敏，不复制用户生产数据库到仓库。
+Verify relevant old-version samples, missing/abnormal data, repeat runs, and core reads/writes after upgrade. Test interruption and restart when recovery is required. Redact test data; do not commit a user's production database.
 
-依据：[Room 迁移指南](https://developer.android.com/training/data-storage/room/migrating-db-versions)。接口与配置迁移策略是需要按项目契约确定的插件工作要求。
+Source: [Room migration guide](https://developer.android.com/training/data-storage/room/migrating-db-versions). API and settings migration strategies depend on the project's contracts and are plugin guidance.
