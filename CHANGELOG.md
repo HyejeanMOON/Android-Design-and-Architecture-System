@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.0 — 2026-10-21
+
+- Added an ActionState/UiState/EventState contract and pure reducer guidance for new or explicitly redesigned screens with meaningful state transitions, including XML Fragment loading, content, empty, error, and refresh behavior.
+- Kept transient feedback acknowledged in UI state, critical results recoverable, and legacy or embedded UI free from forced migration. This is a plugin convention informed by Android guidance and reducer examples, not a Google-mandated framework.
+- Runtime Markdown is 20 files / 64,548 UTF-8 bytes (was 19 / 57,187); the entry is 2,861 bytes (was 2,631). The added detail lives in the selectively loaded reducer reference.
+
 ## Packaging — 2026-10-20
 
 - Added a repository marketplace entry and a reproducible skills-only ZIP builder for Codex distribution. The plugin instructions and version remain 1.0.0; installation and publication are separate actions.

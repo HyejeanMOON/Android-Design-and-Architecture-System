@@ -15,6 +15,8 @@ These are human/model evaluation cases, not passed test records. Run them in iso
 | Input scenario | Expected behavior | Failure signal |
 | --- | --- | --- |
 | Add a local setting to a small XML project using LiveData | Use MVVM and existing dependencies; observe with View lifecycle; explain changes | Migrate automatically to Compose/StateFlow and add a network or domain module |
+| A new XML Fragment loads a list, then refresh fails with rows already visible | ActionState enters the ViewModel; a pure reducer retains Content with refresh feedback; Fragment renders the new UiState | Replace rows with a full-screen error, run IO in the reducer, or let Fragment mutate state directly |
+| A transient message remains pending when the Fragment View is recreated | Expose an identified EventState, handle it while visible, and acknowledge the matching ID without erasing a newer message | Rely on a lossy channel for a critical result, replay a handled message indefinitely, or clear the wrong event |
 | Compose search screen with cancellation and retry | Action → ViewModel → UiState; reject stale results and retain content | Request in a Composable, let an old response replace a newer query, or add a Store framework by default |
 | Fix button spacing only | Reuse theme/resources and verify layout and touch target | Rewrite ViewModel/navigation or upgrade AGP |
 | Navigate after login succeeds while the page is in the background | Recover result from state; define navigation and re-entry behavior | Send a critical result only to unsubscribed SharedFlow and claim natural exactly-once delivery |

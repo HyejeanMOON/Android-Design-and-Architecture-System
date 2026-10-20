@@ -1,10 +1,10 @@
 # Android Architecture & Design
 
-A Codex desktop skill package for Android architecture, UI/UX, review, and release preparation, version **1.0.0**. It provides guidance and evaluation resources, not an app, MCP service, or automated release tool.
+A Codex desktop skill package for Android architecture, UI/UX, review, and release preparation, version **1.1.0**. It provides guidance and evaluation resources, not an app, MCP service, or automated release tool.
 
 ## Defaults and scope
 
-For new or explicitly updated areas, default to XML MVVM, lightweight MVI for independent Compose screens, Clean boundaries, and Material 3. Reuse suitable existing solutions. Without another requirement, prefer applicable official recommendations or mature libraries such as Retrofit and OkHttp. Add UseCases, modules, offline sync, and frameworks only when needed.
+For new or explicitly updated areas, default to XML MVVM, lightweight MVI for independent Compose screens, Clean boundaries, and Material 3. Screens with meaningful transitions distinguish ActionState, UiState, and EventState and use a pure reducer to derive renderable state. Reuse suitable existing solutions. Without another requirement, prefer applicable official recommendations or mature libraries such as Retrofit and OkHttp. Add UseCases, modules, offline sync, and frameworks only when needed.
 
 The [skill entry](skills/android-architecture-design/SKILL.md) states shared boundaries and routes to relevant topics. The [shared workflow](skills/android-architecture-design/references/workflow.md) owns scope, conflicts, verification, and delivery. [Review](skills/android-architecture-design/references/code-review.md) defines checks after writing and before an authorized commit. Read other references only when the task touches them.
 
@@ -12,7 +12,7 @@ The [skill entry](skills/android-architecture-design/SKILL.md) states shared bou
 | --- | --- |
 | Legacy/mixed projects | [Incremental changes and interoperability](skills/android-architecture-design/references/legacy-hybrid.md): keep suitable existing choices and change at the host/state boundary |
 | Architecture, modules, selection | [Layers](skills/android-architecture-design/references/architecture.md), [modularization](skills/android-architecture-design/references/modularization.md), [libraries and maintenance](skills/android-architecture-design/references/technology-selection.md) |
-| UI/UX | [XML](skills/android-architecture-design/references/xml-mvvm.md), [Compose](skills/android-architecture-design/references/compose-mvi.md), [Material 3](skills/android-architecture-design/references/material3-uiux.md) |
+| UI/UX and screen state | [XML](skills/android-architecture-design/references/xml-mvvm.md), [Compose](skills/android-architecture-design/references/compose-mvi.md), [state reducer](skills/android-architecture-design/references/state-reducer.md), [Material 3](skills/android-architecture-design/references/material3-uiux.md) |
 | Data and lifecycle | [Concurrency and weak networks](skills/android-architecture-design/references/data-consistency.md), [migrations](skills/android-architecture-design/references/data-migrations.md), [background work](skills/android-architecture-design/references/background-work.md) |
 | Performance and privacy | [Runtime and diagnosis](skills/android-architecture-design/references/runtime-performance.md), [Gradle](skills/android-architecture-design/references/build-performance.md), [security](skills/android-architecture-design/references/security-privacy.md) |
 | Release | [Release verification](skills/android-architecture-design/references/testing-release.md), [Play adaptation](skills/android-architecture-design/references/google-play-release.md) |
@@ -31,7 +31,7 @@ To create a ZIP for upload or sharing, run:
 python3 scripts/package_plugin.py
 ```
 
-This writes `dist/android-architecture-design-1.0.0.zip` with the two manifests and the skill files at the archive root. The generated archive is excluded from Git; rerun the command after changing the plugin. The ZIP is a package, not a published or installed plugin. It contains no MCP server, account credentials, author evaluation answers, or repository maintenance files.
+This writes a versioned ZIP such as `dist/android-architecture-design-1.1.0.zip` with the two manifests and the skill files at the archive root. The generated archive is excluded from Git; rerun the command after changing the plugin. The ZIP is a package, not a published or installed plugin. It contains no MCP server, account credentials, author evaluation answers, or repository maintenance files.
 
 ```text
 Use $android-architecture-design to implement a search screen in this existing project.

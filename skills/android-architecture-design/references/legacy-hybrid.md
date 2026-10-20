@@ -5,6 +5,7 @@ Read this when changing legacy code, crossing XML/Compose boundaries, or migrati
 ## Change boundaries
 
 - When fixing an old screen, keep suitable UI, LiveData/Flow/Rx, DataBinding, DI, and navigation choices. A local fix does not trigger migration.
+- The ActionState/UiState/EventState reducer convention applies to new or explicitly redesigned screen state; do not add it to a small legacy fix or an embedded widget merely to standardize names.
 - Compose embedded in XML receives host state and callbacks; it needs no separate MVI or ViewModel. Apply the lightweight MVI default only to an independent new Compose screen, connected to existing navigation. A Fragment may still host it.
 - For explicit migration, replace business slices and verify old/new contracts and data. Do not migrate unrelated toolchains, storage, or modules at the same time. A legacy project remains subject to applicable release requirements.
 

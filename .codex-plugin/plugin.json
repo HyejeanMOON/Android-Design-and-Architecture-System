@@ -1,6 +1,6 @@
 {
   "name": "android-architecture-design",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Android Clean Architecture, XML MVVM, Compose MVI, and Material 3 UI/UX development and review guidance.",
   "skills": "./skills/",
   "interface": {

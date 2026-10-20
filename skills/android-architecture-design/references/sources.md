@@ -11,5 +11,6 @@ Domain documents link direct sources. This page explains how to interpret them. 
 | Play | [Policy Help](https://support.google.com/googleplay/android-developer/), [target requirements](https://support.google.com/googleplay/android-developer/answer/11926878?hl=en), and actual Console evidence, scoped to submission date and app |
 
 XML MVVM, independent Compose MVI, strict Clean, the Retrofit/OkHttp default, and two Review checkpoints are user/plugin conventions, not Google mandates. Distinguish recommendations, system behavior, store policy, and project preferences.
+The ActionState/UiState/EventState naming and reducer structure are also plugin conventions. Android documents unidirectional state production and UI events; library examples demonstrate reducer implementations without requiring those dependencies.
 
 Mark facts that cannot be checked as unknown. Do not invent versions, vulnerabilities, or eligibility. Old snapshots and blogs are not proof of current release requirements. Author maintenance/evaluation does not automatically become part of every app task.
