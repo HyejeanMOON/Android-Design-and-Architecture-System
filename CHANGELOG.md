@@ -1,5 +1,9 @@
 # Changelog
 
+## Packaging — 2026-10-20
+
+- Added a repository marketplace entry and a reproducible skills-only ZIP builder for Codex distribution. The plugin instructions and version remain 1.0.0; installation and publication are separate actions.
+
 ## 1.0.0 — 2026-10-17
 
 - Translate the plugin interface, skill instructions, technical references, maintenance guidance, and evaluation material into English.

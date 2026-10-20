@@ -21,7 +21,17 @@ Explicit user requests and project conventions outrank plugin defaults. Preferen
 
 ## Use and packaging
 
-`plugin.json` is the portable entry; `.codex-plugin/plugin.json` is a compatibility entry. Both share one skill directory. This repository has not been installed or published as part of this conversation. Import the root directory using the host's supported local method. If no import UI exists, use the complete skill directory or explicitly ask the agent to read its SKILL.md; manually reading rules does not mean the plugin is installed.
+`plugin.json` is the portable entry; `.codex-plugin/plugin.json` is a compatibility entry. Both share one skill directory. This repository is already a skills-only Codex plugin source. The [repo marketplace](.agents/plugins/marketplace.json) exposes the plugin at the repository root for local or Git-backed marketplace installation. It does not install the plugin automatically.
+
+For local use, open this repository as a trusted project in Codex, or register its directory as a marketplace source with `codex plugin marketplace add "/absolute/path/to/this/repository"`. For use from another machine after pushing to GitHub, register the repository with `codex plugin marketplace add owner/repo`. In Codex desktop, refresh or restart, open the Plugins Directory, select **Android Architecture & Design**, and install it. Verify it in a new chat using `$android-architecture-design`. Availability depends on the host's local marketplace support and project trust settings. [Official installation guidance](https://developers.openai.com/plugins/build/plugins#install-a-local-plugin-manually) explains these surfaces.
+
+To create a ZIP for upload or sharing, run:
+
+```sh
+python3 scripts/package_plugin.py
+```
+
+This writes `dist/android-architecture-design-1.0.0.zip` with the two manifests and the skill files at the archive root. The generated archive is excluded from Git; rerun the command after changing the plugin. The ZIP is a package, not a published or installed plugin. It contains no MCP server, account credentials, author evaluation answers, or repository maintenance files.
 
 ```text
 Use $android-architecture-design to implement a search screen in this existing project.

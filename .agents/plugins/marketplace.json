@@ -1,0 +1,20 @@
+{
+  "name": "android-architecture-design",
+  "interface": {
+    "displayName": "Android Architecture & Design"
+  },
+  "plugins": [
+    {
+      "name": "android-architecture-design",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
