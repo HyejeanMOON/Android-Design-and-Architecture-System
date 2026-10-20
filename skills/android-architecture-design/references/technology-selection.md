@@ -11,7 +11,7 @@ Order of preference: explicit user requirement → suitable existing project sol
 | REST/HTTP | Retrofit + OkHttp; raw HTTP or downloads may use OkHttp alone; evaluate non-REST protocols separately |
 | JSON | Consider kotlinx.serialization for new Kotlin code; retain suitable Moshi/Gson, selecting the primary option for contracts and converters |
 | Storage | Room for structured queries/transactions, DataStore for small settings; do not migrate suitable storage without cause or treat either as an encrypted credential vault |
-| DI | Prefer Hilt when a framework is warranted; manual injection works for small graphs; retain suitable Koin/Dagger |
+| DI | Prefer Hilt when a framework is warranted; manual injection works for small graphs; retain suitable Koin/Dagger. See [dependency injection](dependency-injection.md) when changing the graph |
 | Background/paging | Consider WorkManager for deferrable persistent work and Paging for large datasets, only when needed |
 | Images | Consider Coil for new Compose images; reuse suitable Glide/Coil in XML, with network and decoder needs in mind |
 | Navigation/testing | Reuse AndroidX or existing solutions fitting the current UI; do not migrate frameworks automatically |

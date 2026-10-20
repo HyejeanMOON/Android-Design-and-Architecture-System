@@ -18,7 +18,7 @@ Links are navigation aids, not an instruction to load every file recursively. Sm
 | Task | Reference |
 | --- | --- |
 | Legacy project, mixed UI, incremental migration | [Legacy interoperability](references/legacy-hybrid.md) |
-| Layers, modules, library selection | [Architecture](references/architecture.md), [Modularization](references/modularization.md), [Technology selection](references/technology-selection.md) |
+| Layers, modules, DI/Hilt, library selection | [Architecture](references/architecture.md), [Modularization](references/modularization.md), [Dependency injection](references/dependency-injection.md), [Technology selection](references/technology-selection.md) |
 | XML, Compose, UI/UX and state transitions | [XML MVVM](references/xml-mvvm.md), [Compose MVI](references/compose-mvi.md), [State reducer](references/state-reducer.md), [Material 3](references/material3-uiux.md) |
 | Concurrency, migration, background work | [Data consistency](references/data-consistency.md), [Data migrations](references/data-migrations.md), [Background work](references/background-work.md) |
 | Performance, builds, security | [Runtime performance](references/runtime-performance.md), [Gradle](references/build-performance.md), [Security](references/security-privacy.md) |

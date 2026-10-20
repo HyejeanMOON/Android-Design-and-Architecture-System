@@ -1,6 +1,6 @@
 # Android Architecture & Design
 
-A Codex desktop skill package for Android architecture, UI/UX, review, and release preparation, version **1.1.0**. It provides guidance and evaluation resources, not an app, MCP service, or automated release tool.
+A Codex desktop skill package for Android architecture, UI/UX, review, and release preparation, version **1.2.0**. It provides guidance and evaluation resources, not an app, MCP service, or automated release tool.
 
 ## Defaults and scope
 
@@ -11,7 +11,7 @@ The [skill entry](skills/android-architecture-design/SKILL.md) states shared bou
 | Task | Reference |
 | --- | --- |
 | Legacy/mixed projects | [Incremental changes and interoperability](skills/android-architecture-design/references/legacy-hybrid.md): keep suitable existing choices and change at the host/state boundary |
-| Architecture, modules, selection | [Layers](skills/android-architecture-design/references/architecture.md), [modularization](skills/android-architecture-design/references/modularization.md), [libraries and maintenance](skills/android-architecture-design/references/technology-selection.md) |
+| Architecture, modules, DI, selection | [Layers](skills/android-architecture-design/references/architecture.md), [modularization](skills/android-architecture-design/references/modularization.md), [dependency injection and Hilt](skills/android-architecture-design/references/dependency-injection.md), [libraries and maintenance](skills/android-architecture-design/references/technology-selection.md) |
 | UI/UX and screen state | [XML](skills/android-architecture-design/references/xml-mvvm.md), [Compose](skills/android-architecture-design/references/compose-mvi.md), [state reducer](skills/android-architecture-design/references/state-reducer.md), [Material 3](skills/android-architecture-design/references/material3-uiux.md) |
 | Data and lifecycle | [Concurrency and weak networks](skills/android-architecture-design/references/data-consistency.md), [migrations](skills/android-architecture-design/references/data-migrations.md), [background work](skills/android-architecture-design/references/background-work.md) |
 | Performance and privacy | [Runtime and diagnosis](skills/android-architecture-design/references/runtime-performance.md), [Gradle](skills/android-architecture-design/references/build-performance.md), [security](skills/android-architecture-design/references/security-privacy.md) |
@@ -31,7 +31,7 @@ To create a ZIP for upload or sharing, run:
 python3 scripts/package_plugin.py
 ```
 
-This writes a versioned ZIP such as `dist/android-architecture-design-1.1.0.zip` with the two manifests and the skill files at the archive root. The generated archive is excluded from Git; rerun the command after changing the plugin. The ZIP is a package, not a published or installed plugin. It contains no MCP server, account credentials, author evaluation answers, or repository maintenance files.
+This writes a versioned ZIP such as `dist/android-architecture-design-1.2.0.zip` with the two manifests and the skill files at the archive root. The generated archive is excluded from Git; rerun the command after changing the plugin. The ZIP is a package, not a published or installed plugin. It contains no MCP server, account credentials, author evaluation answers, or repository maintenance files.
 
 ```text
 Use $android-architecture-design to implement a search screen in this existing project.

@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.0 — 2026-10-21
+
+- Added a selectively loaded DI/Hilt reference grounded in current Android guidance: constructor injection, graph ownership, Hilt bindings and scopes, ViewModel ownership, legacy migration, multi-module limits, and test replacement.
+- Preserved manual DI and suitable existing Koin/Dagger graphs; Hilt is a recommended choice for sufficiently complex apps, not a migration requirement for every legacy feature.
+- Runtime Markdown is 21 files / 69,319 UTF-8 bytes (was 20 / 64,548); the skill entry is 2,930 bytes (was 2,861). DI detail is loaded only when relevant.
+
 ## 1.1.0 — 2026-10-21
 
 - Added an ActionState/UiState/EventState contract and pure reducer guidance for new or explicitly redesigned screens with meaningful state transitions, including XML Fragment loading, content, empty, error, and refresh behavior.
