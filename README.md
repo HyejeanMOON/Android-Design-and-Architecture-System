@@ -1,6 +1,6 @@
 # Android Architecture & Design
 
-A Codex desktop skill package for Android architecture, UI/UX, review, and release preparation, version **1.2.0**. It provides guidance and evaluation resources, not an app, MCP service, or automated release tool.
+A Codex desktop skill package for Android architecture, UI/UX, review, and release preparation, version **1.2.1**. It provides guidance and evaluation resources, not an app, MCP service, or automated release tool.
 
 ## Defaults and scope
 
@@ -31,7 +31,7 @@ To create a ZIP for upload or sharing, run:
 python3 scripts/package_plugin.py
 ```
 
-This writes a versioned ZIP such as `dist/android-architecture-design-1.2.0.zip` with the two manifests and the skill files at the archive root. The generated archive is excluded from Git; rerun the command after changing the plugin. The ZIP is a package, not a published or installed plugin. It contains no MCP server, account credentials, author evaluation answers, or repository maintenance files.
+This writes a versioned ZIP such as `dist/android-architecture-design-1.2.1.zip` with the two manifests and the skill files at the archive root. The generated archive is excluded from Git; rerun the command after changing the plugin. The ZIP is a package, not a published or installed plugin. It contains no MCP server, account credentials, author evaluation answers, or repository maintenance files.
 
 ```text
 Use $android-architecture-design to implement a search screen in this existing project.

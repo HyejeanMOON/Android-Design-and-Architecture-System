@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.1 — 2026-10-21
+
+- Distinguished Android's typical optional domain-to-data dependency from the plugin's Clean dependency-inversion option, preserving suitable existing project boundaries.
+- Clarified that Repositories own data, source-of-truth coordination, and most data business logic, while optional UseCases serve complex or reused logic. Linked main-safe data access from the architecture entry.
+- Runtime Markdown is 21 files / 70,164 UTF-8 bytes (was 69,319); the skill entry remains 2,930 bytes.
+
 ## 1.2.0 — 2026-10-21
 
 - Added a selectively loaded DI/Hilt reference grounded in current Android guidance: constructor injection, graph ownership, Hilt bindings and scopes, ViewModel ownership, legacy migration, multi-module limits, and test replacement.
